@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Route 53 High Availability - Backup</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            AWS<span>HA</span>
+        </div>
+
+        <div class="nav-title">
+            Route 53 High Availability
+        </div>
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            Failover System
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                AMAZON ROUTE 53 • FAILOVER
+            </div>
+
+            <h1>
+                Backup Server
+                <span>Failover Active</span>
+            </h1>
+
+            <p>
+                The primary server is currently unavailable.
+                Route 53 has redirected traffic to this healthy
+                secondary server to maintain service availability.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button onclick="checkStatus()" class="primary-btn">
+                    Check Server Status
+                </button>
+
+                <button onclick="scrollToArchitecture()" class="secondary-btn">
+                    View Architecture
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATUS SECTION -->
+    <section class="section">
+
+        <div class="section-heading">
+            <span>01</span>
+
+            <div>
+                <h2>Server Status</h2>
+                <p>Current infrastructure health</p>
+            </div>
+
+        </div>
+
+
+        <div class="server-grid">
+
+            <!-- PRIMARY SERVER -->
+            <div class="server-card primary-card">
+
+                <div class="card-top">
+
+                    <div class="server-icon">
+                        P
+                    </div>
+
+                    <span class="online-badge" id="primaryBadge">
+                        ● OFFLINE
+                    </span>
+
+                </div>
+
+                <h3>Primary Server</h3>
+
+                <p class="server-description">
+                    Main production website is currently unavailable.
+                    Route 53 detected the failure through its health check.
+                </p>
+
+                <div class="server-details">
+
+                    <div>
+                        <span>Server</span>
+                        <strong>Primary S3</strong>
+                    </div>
+
+                    <div>
+                        <span>Status</span>
+                        <strong id="primaryStatus">Unavailable</strong>
+                    </div>
+
+                    <div>
+                        <span>Traffic</span>
+                        <strong>Redirected</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECONDARY SERVER -->
+            <div class="server-card secondary-card">
+
+                <div class="card-top">
+
+                    <div class="server-icon secondary-icon">
+                        S
+                    </div>
+
+                    <span class="standby-badge" id="secondaryBadge">
+                        ● ACTIVE
+                    </span>
+
+                </div>
+
+                <h3>Secondary Server</h3>
+
+                <p class="server-description">
+                    Backup website is currently serving user traffic
+                    after automatic Route 53 failover.
+                </p>
+
+                <div class="server-details">
+
+                    <div>
+                        <span>Server</span>
+                        <strong>Secondary S3</strong>
+                    </div>
+
+                    <div>
+                        <span>Status</span>
+                        <strong id="secondaryStatus">Active</strong>
+                    </div>
+
+                    <div>
+                        <span>Traffic</span>
+                        <strong>Serving</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ROUTING STATUS -->
+    <section class="section routing-section">
+
+        <div class="section-heading">
+
+            <span>02</span>
+
+            <div>
+                <h2>Failover Status</h2>
+                <p>Route 53 traffic management</p>
+            </div>
+
+        </div>
+
+
+        <div class="routing-card">
+
+            <div class="routing-main">
+
+                <div class="route-icon">
+                    ↗
+                </div>
+
+                <div>
+
+                    <p class="small-label">
+                        CURRENT ROUTING
+                    </p>
+
+                    <h2 id="routingStatus">
+                        SECONDARY SERVER
+                    </h2>
+
+                    <p id="routingDescription">
+                        Primary server is unavailable.
+                        User traffic has been redirected to
+                        the secondary server.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="health-check">
+
+                <div class="health-circle">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Route 53 Health Check
+                    </span>
+
+                    <strong id="healthStatus">
+                        Primary Unhealthy
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ARCHITECTURE -->
+    <section class="section architecture-section" id="architecture">
+
+        <div class="section-heading">
+
+            <span>03</span>
+
+            <div>
+                <h2>System Architecture</h2>
+
+                <p>
+                    How the failover system works
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="architecture">
+
+            <!-- USER -->
+            <div class="architecture-node">
+
+                <div class="node-icon user-icon">
+                    U
+                </div>
+
+                <h3>User</h3>
+
+                <p>
+                    Website visitor
+                </p>
+
+            </div>
+
+
+            <div class="arrow">
+                ↓
+            </div>
+
+
+            <!-- ROUTE 53 -->
+            <div class="architecture-node route53-node">
+
+                <div class="node-icon">
+                    R
+                </div>
+
+                <h3>Amazon Route 53</h3>
+
+                <p>
+                    DNS & Failover Routing
+                </p>
+
+            </div>
+
+
+            <div class="arrow">
+                ↓
+            </div>
+
+
+            <!-- HEALTH CHECK -->
+            <div class="architecture-node health-node">
+
+                <div class="node-icon">
+                    ✓
+                </div>
+
+                <h3>Health Check</h3>
+
+                <p>
+                    Primary server detected as unhealthy
+                </p>
+
+            </div>
+
+
+            <div class="branch">
+
+                <div class="branch-line"></div>
+
+
+                <!-- PRIMARY -->
+                <div class="branch-column">
+
+                    <div class="architecture-node primary-node">
+
+                        <div class="node-icon">
+                            P
+                        </div>
+
+                        <h3>Primary S3</h3>
+
+                        <p>
+                            Main Website
+                        </p>
+
+                    </div>
+
+                    <span class="branch-label">
+                        UNHEALTHY
+                    </span>
+
+                </div>
+
+
+                <!-- SECONDARY -->
+                <div class="branch-column">
+
+                    <div class="architecture-node secondary-node">
+
+                        <div class="node-icon">
+                            S
+                        </div>
+
+                        <h3>Secondary S3</h3>
+
+                        <p>
+                            Backup Website
+                        </p>
+
+                    </div>
+
+                    <span class="branch-label">
+                        ACTIVE FAILOVER
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="section">
+
+        <div class="section-heading">
+
+            <span>04</span>
+
+            <div>
+                <h2>How It Works</h2>
+
+                <p>
+                    Automatic traffic failover process
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>Monitor</h3>
+
+                <p>
+                    Route 53 continuously monitors the health
+                    of the primary website.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>Detect</h3>
+
+                <p>
+                    Route 53 detects that the primary server
+                    is unhealthy.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>Failover</h3>
+
+                <p>
+                    Traffic is automatically directed toward
+                    the secondary website.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <h3>Continue Service</h3>
+
+                <p>
+                    The secondary server continues serving
+                    users while the primary is unavailable.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DEMO SECTION -->
+    <section class="demo-section">
+
+        <div class="demo-content">
+
+            <span class="demo-label">
+                FAILOVER ACTIVE
+            </span>
+
+            <h2>
+                Secondary Server is Serving Traffic
+            </h2>
+
+            <p>
+                Route 53 has detected a primary server failure
+                and redirected traffic to this backup server.
+            </p>
+
+            <button onclick="checkStatus()" class="primary-btn">
+                Check Server Status
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div>
+
+            <strong>
+                Route 53 High Availability
+            </strong>
+
+            <p>
+                Cloud Infrastructure Demonstration
+            </p>
+
+        </div>
+
+        <div>
+            Built for Hackathon 2026
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
